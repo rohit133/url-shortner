@@ -1,8 +1,8 @@
-const GetShortUrlServive = require("../services/getShortUrl.service");
+const GetShortUrlService = require("../services/getShortUrl.service");
 exports.getTinyUrl = async (req, res) => {
   let { shortUrl } = req.params;
   try {
-    let response = await GetShortUrlServive.get(shortUrl);
+    let response = await GetShortUrlService.get(shortUrl);
     res.status(302).redirect(response.url);
   } catch (error) {
     res

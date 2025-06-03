@@ -1,3 +1,4 @@
+const redisClientUrl = require("../config/redis-url");
 const URL = require("../models/url.model");
 const hashfunction = require("js-sha256");
 
@@ -10,15 +11,15 @@ class CreateShortUrlService {
         checkIfDuplicate = await URL.findOne({ short_url: shortUrl });
         attempt++;
       } while (checkIfDuplicate);
-      let urlObj = await URL.create({
+
+      let response = await URL.create({
         url: url,
         short_url: shortUrl,
       });
-      let response = await urlObj.save();
-      console.log(`Testing the Url shortener in the services : ${response}`);
       return response;
     } catch (err) {
-      return err;
+      console.error("Error creating short URL:", err);
+      throw new Error("Failed to create short URL");
     }
   }
 }
